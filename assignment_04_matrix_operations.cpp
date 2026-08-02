@@ -65,3 +65,140 @@
 #include <string>
 using namespace std;
 
+
+void inputMatrix(int matrix[10][10], int rows, int cols)
+{
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            cout << "Enter element [" << i << "][" << j << "]: ";
+            cin >> matrix[i][j];
+        }
+    }
+}
+
+void displayMatrix(int matrix[10][10], int rows, int cols)
+{
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            cout << setw(5) << matrix[i][j];
+        }
+        cout << endl;
+    }
+}
+
+void transposeMatrix(int matrix[10][10], int rows, int cols)
+{
+    int transpose[10][10];
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            transpose[j][i] = matrix[i][j];
+        }
+    }
+
+    cout << "\nTransposed Matrix:\n";
+    displayMatrix(transpose, cols, rows);
+}
+
+void addMatrices(int A[10][10], int B[10][10], int rows, int cols)
+{
+    int sum[10][10];
+
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            sum[i][j] = A[i][j] + B[i][j];
+        }
+    }
+
+    cout << "\nSum of Matrices:\n";
+    displayMatrix(sum, rows, cols);
+}
+
+void multiplyMatrices(int A[10][10], int B[10][10], int result[10][10],
+                      int rowsA, int colsA, int colsB)
+{
+    for (int i = 0; i < rowsA; i++)
+    {
+        for (int j = 0; j < colsB; j++)
+        {
+            result[i][j] = 0;
+
+            for (int k = 0; k < colsA; k++)
+            {
+                result[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+
+    cout << "\nProduct of Matrices:\n";
+    displayMatrix(result, rowsA, colsB);
+}
+
+int main()
+{
+    int A[10][10], B[10][10], C[10][10];
+    int rows, cols;
+    int rowsA, colsA, rowsB, colsB;
+
+    cout << "PART A - Transpose Matrix\n";
+    cout << "Enter number of rows: ";
+    cin >> rows;
+    cout << "Enter number of columns: ";
+    cin >> cols;
+
+    inputMatrix(A, rows, cols);
+
+    cout << "\nOriginal Matrix:\n";
+    displayMatrix(A, rows, cols);
+
+    transposeMatrix(A, rows, cols);
+
+    cout << "\nPART B - Add Two Matrices\n";
+    cout << "Enter number of rows: ";
+    cin >> rows;
+    cout << "Enter number of columns: ";
+    cin >> cols;
+
+    cout << "Enter Matrix A:\n";
+    inputMatrix(A, rows, cols);
+
+    cout << "Enter Matrix B:\n";
+    inputMatrix(B, rows, cols);
+
+    addMatrices(A, B, rows, cols);
+
+    cout << "\nPART C - Multiply Two Matrices\n";
+    cout << "Enter rows of Matrix A: ";
+    cin >> rowsA;
+    cout << "Enter columns of Matrix A: ";
+    cin >> colsA;
+
+    cout << "Enter Matrix A:\n";
+    inputMatrix(A, rowsA, colsA);
+
+    cout << "Enter rows of Matrix B: ";
+    cin >> rowsB;
+    cout << "Enter columns of Matrix B: ";
+    cin >> colsB;
+
+    if (colsA != rowsB)
+    {
+        cout << "Matrix multiplication is not possible." << endl;
+        return 0;
+    }
+
+    cout << "Enter Matrix B:\n";
+    inputMatrix(B, rowsB, colsB);
+
+    multiplyMatrices(A, B, C, rowsA, colsA, colsB);
+
+    return 0;
+}
